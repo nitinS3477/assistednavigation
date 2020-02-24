@@ -1,0 +1,2 @@
+include ':app', ':voiceassistant', ':assistant'
+rootProject.name='Demo'
