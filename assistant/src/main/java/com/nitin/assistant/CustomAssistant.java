@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -192,7 +191,7 @@ public class CustomAssistant {
 
     }
 
-    private static void showPrompt(final Activity activity, String text, String res, final String audio) {
+    private static void showPrompt(final Activity activity, String text, final String res, final String audio) {
 
         new MaterialTapTargetPrompt.Builder(activity)
                 .setTarget(activity.getResources().getIdentifier(res, "id", activity.getPackageName()))
@@ -217,27 +216,31 @@ public class CustomAssistant {
                         MediaPlayerManager mediaPlayerManager = MediaPlayerManager.getInstance();
 
                         if (state == MaterialTapTargetPrompt.STATE_REVEALED) {
-
-
                             mediaPlayerManager.play(audio);
                         }
 
-                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED ||
-                                state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-
+                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
                             mediaPlayerManager.stop();
-
-                            if (viewIterator.hasNext()) {
-                                String view = viewIterator.next();
-                                editor.putBoolean(view, true);
-                                editor.commit();
-                                showPrompt(activity, textIterator.next(), view, audioIterator.next());
-                            }
+                            nextState(activity);
                         }
+
+//                        if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+//                            mediaPlayerManager.stop();
+//                            nextState(activity);
+//                        }
 
                     }
                 })
                 .show();
+    }
+
+    private static void nextState(Activity activity) {
+        if (viewIterator.hasNext()) {
+            String view = viewIterator.next();
+            editor.putBoolean(view, true);
+            editor.commit();
+            showPrompt(activity, textIterator.next(), view, audioIterator.next());
+        }
     }
 
 }
