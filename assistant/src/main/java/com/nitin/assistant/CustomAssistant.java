@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -28,8 +30,8 @@ import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFoc
 
 public class CustomAssistant {
 
-
     private static List<HashMap<String, Object>> data;
+    private static Boolean isAnimation;
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
@@ -82,7 +84,7 @@ public class CustomAssistant {
 
     public static void parseJSON(@NonNull Context context, String journey) {
 
-        StringBuffer json = new StringBuffer();
+        StringBuilder json = new StringBuilder();
         sharedPreferences = context.getSharedPreferences("Assistant", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.clear();
@@ -97,7 +99,8 @@ public class CustomAssistant {
             }
 
             JSONObject obj = new JSONObject(json.toString());
-            getData(obj, journey);
+            JSONObject jsonObject = obj.getJSONObject("hi");
+            getData(jsonObject, journey);
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -113,7 +116,11 @@ public class CustomAssistant {
     }
 
     private static void getData(@NotNull JSONObject object) throws JSONException {
-        JSONArray jsonArray = object.getJSONArray("sample2");
+
+        JSONObject jsonObj = object.getJSONObject("sample");
+        Boolean isAnimation = jsonObj.getBoolean("pulse");
+        JSONArray jsonArray = jsonObj.getJSONArray("journey");
+
         data = new ArrayList<>();
         HashMap<String, Object> map;
 
@@ -131,7 +138,10 @@ public class CustomAssistant {
     }
 
     private static void getData(@NotNull JSONObject object, String name) throws JSONException {
-        JSONArray jsonArray = object.getJSONArray(name);
+        JSONObject jsonObj = object.getJSONObject(name);
+        isAnimation = jsonObj.getBoolean("pulse");
+        JSONArray jsonArray = jsonObj.getJSONArray("journey");
+
         data = new ArrayList<>();
         HashMap<String, Object> map;
 
@@ -160,6 +170,7 @@ public class CustomAssistant {
         for (int i = 0; i < data.size(); i++) {
 
             if (data.get(i).get("activity").equals(activityName)) {
+
                 textList.add((String) data.get(i).get("text"));
                 viewList.add((String) data.get(i).get("view"));
                 audioList.add((String) data.get(i).get("audioUrl"));
@@ -183,6 +194,17 @@ public class CustomAssistant {
             }
             editor.putBoolean(view, true);
             editor.commit();
+
+//            CheckBox checkBox;
+//            if (view.equals("tvProceed")) {
+//                checkBox = activity.findViewById(activity.getResources().getIdentifier("cbTerms", "id", activity.getPackageName()));
+//                if (checkBox.isChecked()) {
+//                    showPrompt(activity, text, view, audio);
+//                }
+//            } else {
+//                showPrompt(activity, text, view, audio);
+//            }
+
             showPrompt(activity, text, view, audio);
 
         } catch (Exception e) {
@@ -198,8 +220,8 @@ public class CustomAssistant {
                 .setPrimaryText(text)
                 .setPrimaryTextColour(Color.parseColor("#ffffff"))
                 .setBackButtonDismissEnabled(true)
-                .setIdleAnimationEnabled(false)
-                .setBackgroundColour(Color.parseColor("#B3000000"))
+                .setIdleAnimationEnabled(isAnimation)
+                .setBackgroundColour(Color.parseColor("#D0000000"))
                 .setPromptBackground(new FullscreenPromptBackground())
                 .setPromptFocal(new RectanglePromptFocal())
                 .setPromptStateChangeListener(new MaterialTapTargetPrompt.PromptStateChangeListener() {
@@ -219,15 +241,24 @@ public class CustomAssistant {
                             mediaPlayerManager.play(audio);
                         }
 
-                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                        if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                             mediaPlayerManager.stop();
                             nextState(activity);
                         }
 
-//                        if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
-//                            mediaPlayerManager.stop();
-//                            nextState(activity);
-//                        }
+                        if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+                            mediaPlayerManager.stop();
+
+                            View rootView = activity.getWindow().getDecorView().getRootView();
+                            rootView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    nextState(activity);
+                                    return true;
+                                }
+                            });
+
+                        }
 
                     }
                 })

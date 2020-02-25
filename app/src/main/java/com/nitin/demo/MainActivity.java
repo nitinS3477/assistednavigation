@@ -28,15 +28,6 @@ public class MainActivity extends AppCompatActivity {
         TextView tvN = findViewById(getResources().getIdentifier(temp, "id", getPackageName()));
 
 
-        tvE.setOnClickListener(v -> {
-                    Toast.makeText(getBaseContext(), "English", Toast.LENGTH_SHORT).show();
-                }
-        );
-
-        tvH.setOnClickListener(view -> {
-
-            Toast.makeText(getBaseContext(), "Hindi", Toast.LENGTH_SHORT).show();
-        });
 
         tvN.setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, ActivityTC.class)));

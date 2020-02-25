@@ -1,21 +1,12 @@
 package com.nitin.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
-import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.FullscreenPromptBackground;
-import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nitin.assistant.CustomAssistant;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityTC extends AppCompatActivity {
 
@@ -36,20 +27,17 @@ public class ActivityTC extends AppCompatActivity {
         cBTerms = findViewById(R.id.cbTerms);
 
         linearLayout.setOnClickListener(v -> {
-            cBTerms.setChecked(true);
-
+            if (!cBTerms.isChecked())
+                cBTerms.setChecked(true);
+            else
+                cBTerms.setChecked(false);
         });
-
-
-
 
 
         tvProceed.setOnClickListener(v ->
                 startActivity(new Intent(
                         ActivityTC.this, ActivityCard.class
                 )));
-
-
 
 
     }
