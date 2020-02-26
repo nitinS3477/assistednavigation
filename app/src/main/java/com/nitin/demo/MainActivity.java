@@ -2,17 +2,21 @@ package com.nitin.demo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nitin.assistant.CustomAssistant;
+
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,23 @@ public class MainActivity extends AppCompatActivity {
         TextView tvN = findViewById(getResources().getIdentifier(temp, "id", getPackageName()));
 
 
+        textToSpeech = new TextToSpeech(this, status -> {
+            if (status == TextToSpeech.SUCCESS) {
+                int result = textToSpeech.setLanguage(Locale.ENGLISH);
+
+                if (result == TextToSpeech.LANG_MISSING_DATA
+                        || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "Language not supported");
+                }
+            } else {
+                Log.e("TTS", "Initialization failed");
+            }
+        });
+
+//        tvE.setOnClickListener(view ->
+//        {
+//            start();
+//        });
 
         tvN.setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this, ActivityTC.class)));
@@ -35,6 +56,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void start() {
+        textToSpeech.setLanguage(Locale.forLanguageTag("hi"));
+        textToSpeech.speak("हिंदी भाषा का चयन के लिए यहाँ क्लिक करें", TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (textToSpeech != null) {
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_share:
 
-                CustomAssistant.init(this.getApplication(),"sample2");
+                CustomAssistant.init(this.getApplication(), "sample2", "hi");
                 CustomAssistant.guide(this);
 
                 break;

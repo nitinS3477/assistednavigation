@@ -35,11 +35,12 @@ public class CustomAssistant {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
+
     private static Iterator<String> textIterator, viewIterator, audioIterator;
 
-    public static void init(@NonNull Application application, String journey) {
+    public static void init(@NonNull Application application, String journey, String language) {
 
-        CustomAssistant.parseJSON(application.getApplicationContext(), journey);
+        CustomAssistant.parseJSON(application.getApplicationContext(), journey, language);
 
 
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
@@ -82,7 +83,7 @@ public class CustomAssistant {
 
     }
 
-    public static void parseJSON(@NonNull Context context, String journey) {
+    public static void parseJSON(@NonNull Context context, String journey, String languageCode) {
 
         StringBuilder json = new StringBuilder();
         sharedPreferences = context.getSharedPreferences("Assistant", Context.MODE_PRIVATE);
@@ -99,7 +100,7 @@ public class CustomAssistant {
             }
 
             JSONObject obj = new JSONObject(json.toString());
-            JSONObject jsonObject = obj.getJSONObject("hi");
+            JSONObject jsonObject = obj.getJSONObject(languageCode);
             getData(jsonObject, journey);
 
         } catch (IOException | JSONException e) {
@@ -236,6 +237,7 @@ public class CustomAssistant {
 
 
                         MediaPlayerManager mediaPlayerManager = MediaPlayerManager.getInstance();
+
 
                         if (state == MaterialTapTargetPrompt.STATE_REVEALED) {
                             mediaPlayerManager.play(audio);
