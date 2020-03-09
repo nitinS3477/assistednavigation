@@ -24,12 +24,18 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.FullscreenPromptBackground;
 import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal;
 
 public class CustomAssistant {
 
+    public static final String KEY_WORK_INPUT = "key_input_data";
     private static List<HashMap<String, Object>> data;
     private static Boolean isAnimation;
     private static SharedPreferences sharedPreferences;
@@ -100,7 +106,12 @@ public class CustomAssistant {
             }
 
             JSONObject obj = new JSONObject(json.toString());
-            JSONObject jsonObject = obj.getJSONObject(languageCode);
+            JSONObject jsonObject;
+            if (obj.has(languageCode))
+                jsonObject = obj.getJSONObject(languageCode);
+            else
+                jsonObject = obj.getJSONObject("en");
+
             getData(jsonObject, journey);
 
         } catch (IOException | JSONException e) {
@@ -114,6 +125,34 @@ public class CustomAssistant {
 
         }
 
+        if (!sharedPreferences.getBoolean("sharedAudio", false)) {
+            offlineDownload(context);
+            editor.putBoolean("sharedAudio", true);
+            editor.commit();
+        }
+
+    }
+
+    private static void offlineDownload(@NonNull Context context) {
+        String[] audioArray = new String[data.size()];
+
+        for (int i = 0; i < data.size(); i++) {
+            audioArray[i] = (String) data.get(i).get("audioUrl");
+        }
+
+        Data inputData = new Data.Builder()
+                .putStringArray(KEY_WORK_INPUT, audioArray)
+                .build();
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class)
+//                .setConstraints(constraints)
+                .setInputData(inputData)
+                .build();
+        WorkManager.getInstance(context).enqueue(request);
     }
 
     private static void getData(@NotNull JSONObject object) throws JSONException {
@@ -157,7 +196,6 @@ public class CustomAssistant {
 
             data.add(map);
         }
-
     }
 
     public static void guide(@NonNull Activity activity) {
@@ -184,29 +222,22 @@ public class CustomAssistant {
 
         try {
 
-            String view = viewIterator.next();
-            String text = textIterator.next();
-            String audio = audioIterator.next();
+            if (viewIterator.hasNext()) {
+                String view = viewIterator.next();
+                String text = textIterator.next();
+                String audio = audioIterator.next();
+                while (sharedPreferences.getBoolean(view, false)) {
+                    view = viewIterator.next();
+                    text = textIterator.next();
+                    audio = audioIterator.next();
+                }
+                editor.putBoolean(view, true);
+                editor.commit();
 
-            while (sharedPreferences.getBoolean(view, false)) {
-                view = viewIterator.next();
-                text = textIterator.next();
-                audio = audioIterator.next();
+
+                showPrompt(activity, text, view, audio);
             }
-            editor.putBoolean(view, true);
-            editor.commit();
 
-//            CheckBox checkBox;
-//            if (view.equals("tvProceed")) {
-//                checkBox = activity.findViewById(activity.getResources().getIdentifier("cbTerms", "id", activity.getPackageName()));
-//                if (checkBox.isChecked()) {
-//                    showPrompt(activity, text, view, audio);
-//                }
-//            } else {
-//                showPrompt(activity, text, view, audio);
-//            }
-
-            showPrompt(activity, text, view, audio);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -214,7 +245,7 @@ public class CustomAssistant {
 
     }
 
-    private static void showPrompt(final Activity activity, String text, final String res, final String audio) {
+    private static void showPrompt(final Activity activity, final String text, final String res, final String audio) {
 
         new MaterialTapTargetPrompt.Builder(activity)
                 .setTarget(activity.getResources().getIdentifier(res, "id", activity.getPackageName()))
@@ -238,18 +269,26 @@ public class CustomAssistant {
 
                         MediaPlayerManager mediaPlayerManager = MediaPlayerManager.getInstance();
 
+//                        TTSManager ttsManager = TTSManager.getInstance();
+//                        ttsManager.init(activity);
 
-                        if (state == MaterialTapTargetPrompt.STATE_REVEALED) {
-                            mediaPlayerManager.play(audio);
+
+                        if (state == MaterialTapTargetPrompt.STATE_REVEALING) {
+//                            ttsManager.play(text);
+
+                            mediaPlayerManager.play(activity, audio);
                         }
 
                         if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                             mediaPlayerManager.stop();
+//                            ttsManager.stop();
                             nextState(activity);
                         }
 
-                        if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED) {
+
+                        if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED) {
                             mediaPlayerManager.stop();
+//                            ttsManager.stop();
 
                             View rootView = activity.getWindow().getDecorView().getRootView();
                             rootView.setOnTouchListener(new View.OnTouchListener() {

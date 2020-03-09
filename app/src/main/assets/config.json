@@ -36,13 +36,13 @@
       ]
     },
     "sample2": {
-      "pulse": false,
+      "pulse": true,
       "journey": [
         {
-          "text": "Click here to Select Hindi Language",
-          "audioUrl": "https://d6cp9b00-a.akamaihd.net/downloads/ringtones/files/mp3/f-hindi-49358.mp3",
+          "text": "Click here to Select English Language",
+          "audioUrl": "https://d6cp9b00-a.akamaihd.net/downloads/ringtones/files/mp3/f-english-49357.mp3",
           "activity": "MainActivity",
-          "view": "tvHindi"
+          "view": "tvEnglish"
         },
         {
           "text": "Click here to accept Terms and Conditions",
@@ -64,10 +64,10 @@
       "pulse": true,
       "journey": [
         {
-          "text": "अंग्रेजी भाषा का चयन करने के लिए यहां क्लिक करें",
-          "audioUrl": "https://nf1f8200-a.akamaihd.net/downloads/ringtones/files/mp3/h-english-49375.mp3",
+          "text": "हिंदी भाषा का चयन करने के लिए यहां क्लिक करें",
+          "audioUrl": "https://nf1f8200-a.akamaihd.net/downloads/ringtones/files/mp3/h-hindi-49378.mp3",
           "activity": "MainActivity",
-          "view": "tvEnglish"
+          "view": "tvHindi"
         },
         {
           "text": "आगे बढ़ने के लिए यहां क्लिक करें",
@@ -96,7 +96,7 @@
       ]
     },
     "sample2": {
-      "pulse": false,
+      "pulse": true,
       "journey": [
         {
           "text": "हिंदी भाषा का चयन करने के लिए यहाँ क्लिक करें",

@@ -20,7 +20,7 @@
             android:layout_height="150dp"
             android:background="#9CC59C"
             android:gravity="center"
-            android:text="Hindi"
+            android:text="@string/languageHindi"
             android:textColor="#ffffff"
             android:textStyle="bold"
 
@@ -35,7 +35,7 @@
             android:layout_toRightOf="@+id/tvHindi"
             android:background="#FF8759"
             android:gravity="center"
-            android:text="English"
+            android:text="@string/languageEnglish"
             android:textColor="#ffffff"
             android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
             android:layout_height="150dp"
             android:background="#9CC59C"
             android:gravity="center"
-            android:text="Gujarati"
+            android:text="@string/languageGujarati"
             android:textColor="#ffffff"
             android:textStyle="bold"
 
@@ -69,7 +69,7 @@
             android:layout_toRightOf="@+id/tvGujrati"
             android:background="#FF8759"
             android:gravity="center"
-            android:text="Punjabi"
+            android:text="@string/languagePunjabi"
             android:textColor="#ffffff"
             android:textStyle="bold" />
 
@@ -87,7 +87,7 @@
             android:layout_height="150dp"
             android:background="#9CC59C"
             android:gravity="center"
-            android:text="Telugu"
+            android:text="@string/languageTelugu"
             android:textColor="#ffffff"
             android:textStyle="bold"
 
@@ -102,7 +102,7 @@
             android:layout_toRightOf="@+id/tvTelugu"
             android:background="#FF8759"
             android:gravity="center"
-            android:text="Malayalam"
+            android:text="@string/languageMalayalam"
             android:textColor="#ffffff"
             android:textStyle="bold" />
 
@@ -118,7 +118,7 @@
         android:layout_gravity="bottom"
         android:background="#8BC7D1"
         android:gravity="center"
-        android:text="NEXT"
+        android:text="@string/buttonNext"
         android:textColor="#ffffff"
         android:textStyle="bold" />
 

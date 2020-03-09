@@ -33,7 +33,7 @@
             android:paddingLeft="10dp"
             android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:text="By Signing up you agree to our Terms and Conditions."/>
+            android:text="@string/textTermsAndConditions"/>
     </LinearLayout>
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_gravity="center"
         android:background="#8BC7D1"
         android:gravity="center"
-        android:text="PROCEED"
+        android:text="@string/buttonProceed"
         android:textColor="#ffffff"
         android:textStyle="bold" />
 

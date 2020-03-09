@@ -32,13 +32,13 @@ public class ActivityCard extends AppCompatActivity {
 
         banking.setOnClickListener(v -> {
             Intent intent = new Intent(ActivityCard.this,ActivityDetails.class);
-            intent.putExtra("name","Banking");
+            intent.putExtra("name",getResources().getString(R.string.textBanking));
             startActivity(intent);
         });
 
         business.setOnClickListener(v -> {
             Intent intent = new Intent(ActivityCard.this,ActivityDetails.class);
-            intent.putExtra("name","Business");
+            intent.putExtra("name",getResources().getString(R.string.textBusiness));
             startActivity(intent);
         });
 

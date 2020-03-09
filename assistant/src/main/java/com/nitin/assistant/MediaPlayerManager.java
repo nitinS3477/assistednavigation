@@ -1,16 +1,16 @@
 package com.nitin.assistant;
 
 import android.app.Activity;
-import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.HandlerThread;
-import android.os.Process;
+import android.net.Uri;
+import android.os.Environment;
+import android.webkit.MimeTypeMap;
+import android.webkit.URLUtil;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.lang.reflect.AccessibleObject;
 
 import androidx.annotation.NonNull;
 
@@ -23,7 +23,6 @@ class MediaPlayerManager {
     private MediaPlayerManager() {
         mediaPlayer = new MediaPlayer();
     }
-
 
 
     @NonNull
@@ -46,8 +45,17 @@ class MediaPlayerManager {
         mediaPlayer.start();
     }
 
-    public void play(@NotNull Activity activity, String resource) {
+    public void play(@NotNull Activity activity, String url) {
 
+        String fileName = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url));
+        String audioPath = Environment.getExternalStorageDirectory().getPath() + "/InternetSaathi/" + fileName;
+        mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), Uri.parse(audioPath));
+//        mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), activity.getResources().getIdentifier(resource, "raw", activity.getPackageName()));
+        if (mediaPlayer != null)
+            mediaPlayer.start();
+    }
+
+    public void playFromAssets(@NotNull Activity activity, String resource){
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), activity.getResources().getIdentifier(resource, "raw", activity.getPackageName()));
         if (mediaPlayer != null)
             mediaPlayer.start();
