@@ -34,7 +34,8 @@ public class MyWorker extends Worker {
         String[] strings = data.getStringArray(CustomAssistant.KEY_WORK_INPUT);
         assert strings != null;
         for (String s : strings) {
-            download(s);
+            if(s!=null)
+                download(s);
         }
         return Result.success();
     }

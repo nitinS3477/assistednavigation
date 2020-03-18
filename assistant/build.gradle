@@ -33,6 +33,11 @@ dependencies {
     implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
     implementation 'com.mapzen.android:speakerbox:1.4.1'
     implementation 'androidx.work:work-runtime:2.3.2'
+
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.8'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

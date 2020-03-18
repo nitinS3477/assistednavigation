@@ -50,7 +50,6 @@ class MediaPlayerManager {
         String fileName = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url));
         String audioPath = Environment.getExternalStorageDirectory().getPath() + "/InternetSaathi/" + fileName;
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), Uri.parse(audioPath));
-//        mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), activity.getResources().getIdentifier(resource, "raw", activity.getPackageName()));
         if (mediaPlayer != null)
             mediaPlayer.start();
     }

@@ -14,7 +14,7 @@ public class ActivityDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         if (getSupportActionBar() != null)
-            getSupportActionBar().setTitle(getIntent().getExtras().getString("name")+" Details");
+            getSupportActionBar().setTitle(getIntent().getExtras().getString("name"));
 
         tvText = findViewById(R.id.tvTemp);
 

@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //CustomAssistant.offlineDownload(this);
+
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("Internet Saathi");
