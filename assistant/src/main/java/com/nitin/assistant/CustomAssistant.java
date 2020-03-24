@@ -237,7 +237,7 @@ public class CustomAssistant {
         }
 
 
-        show(activity,textList,viewList,audioList,audioPathList);
+        show(activity, textList, viewList, audioList, audioPathList);
 
 //        if (showOnlyWhenAudio) {
 //            if (checkFilesPresent(audioList)) {
@@ -246,7 +246,7 @@ public class CustomAssistant {
 //        } else {
 //            show(activity, textList, viewList, audioList, audioPathList);
 //        }
-        
+
     }
 
     private static void show(@NonNull Activity activity, ArrayList<String> textList, ArrayList<String> viewList, ArrayList<String> audioList, ArrayList<String> audioPathList) {
@@ -255,30 +255,24 @@ public class CustomAssistant {
         audioIterator = audioList.iterator();
         audioPathIterator = audioPathList.iterator();
 
-        try {
 
-            if (viewIterator.hasNext()) {
-                String view = viewIterator.next();
-                String text = textIterator.next();
-                String audio = audioIterator.next();
-                String audioPath = audioPathIterator.next();
+        if (viewIterator.hasNext()) {
+            String view = viewIterator.next();
+            String text = textIterator.next();
+            String audio = audioIterator.next();
+            String audioPath = audioPathIterator.next();
 
-                while (sharedPreferences.getBoolean(view, false)) {
-                    view = viewIterator.next();
-                    text = textIterator.next();
-                    audio = audioIterator.next();
-                    audioPath = audioPathIterator.next();
-                }
-                editor.putBoolean(view, true);
-                editor.commit();
-
-
-                showPrompt(activity, text, view, audio, audioPath);
+            while (sharedPreferences.getBoolean(view, false)) {
+                view = viewIterator.next();
+                text = textIterator.next();
+                audio = audioIterator.next();
+                audioPath = audioPathIterator.next();
             }
+            editor.putBoolean(view, true);
+            editor.commit();
 
 
-        } catch (Exception e) {
-             e.printStackTrace();
+            showPrompt(activity, text, view, audio, audioPath);
         }
     }
 

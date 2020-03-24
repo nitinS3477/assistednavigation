@@ -15,7 +15,6 @@ public class App extends Application {
         String languageCode = Locale.getDefault().getLanguage();
         CustomAssistant.init(this, "sample", languageCode);
 
-
     }
 
 
