@@ -256,24 +256,26 @@ public class CustomAssistant {
         audioPathIterator = audioPathList.iterator();
 
 
-        if (viewIterator.hasNext()) {
-            String view = viewIterator.next();
-            String text = textIterator.next();
-            String audio = audioIterator.next();
-            String audioPath = audioPathIterator.next();
 
-            while (sharedPreferences.getBoolean(view, false)) {
-                view = viewIterator.next();
-                text = textIterator.next();
-                audio = audioIterator.next();
-                audioPath = audioPathIterator.next();
+            if (viewIterator.hasNext()) {
+                String view = viewIterator.next();
+                String text = textIterator.next();
+                String audio = audioIterator.next();
+                String audioPath = audioPathIterator.next();
+
+                while (sharedPreferences.getBoolean(view, false) && viewIterator.hasNext()) {
+                    view = viewIterator.next();
+                    text = textIterator.next();
+                    audio = audioIterator.next();
+                    audioPath = audioPathIterator.next();
+                }
+                if (!sharedPreferences.getBoolean(view, false)) {
+                    editor.putBoolean(view, true);
+                    editor.commit();
+                    showPrompt(activity, text, view, audio, audioPath);
+                }
             }
-            editor.putBoolean(view, true);
-            editor.commit();
 
-
-            showPrompt(activity, text, view, audio, audioPath);
-        }
     }
 
     private static boolean checkFilesPresent(ArrayList<String> audioUrlList) {
