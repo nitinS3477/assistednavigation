@@ -237,7 +237,7 @@ public class CustomAssistant {
         }
 
 
-        show(activity, textList, viewList, audioList, audioPathList);
+//        show(activity, textList, viewList, audioList, audioPathList);
 
         if (showOnlyWhenAudio) {
             if (checkFilesPresent(audioList)) {
