@@ -239,13 +239,13 @@ public class CustomAssistant {
 
         show(activity, textList, viewList, audioList, audioPathList);
 
-//        if (showOnlyWhenAudio) {
-//            if (checkFilesPresent(audioList)) {
-//                show(activity, textList, viewList, audioList, audioPathList);
-//            }
-//        } else {
-//            show(activity, textList, viewList, audioList, audioPathList);
-//        }
+        if (showOnlyWhenAudio) {
+            if (checkFilesPresent(audioList)) {
+                show(activity, textList, viewList, audioList, audioPathList);
+            }
+        } else {
+            show(activity, textList, viewList, audioList, audioPathList);
+        }
 
     }
 
@@ -335,15 +335,42 @@ public class CustomAssistant {
                         }
 
                         if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
-                            mediaPlayerManager.stop();
+                            View view = activity.findViewById(activity.getResources().getIdentifier(res, "id", activity.getPackageName()));
+                            if (view.getClass().getSimpleName().equals("AppCompatEditText")) {
+                                mediaPlayerManager.stop();
+                                view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                    @Override
+                                    public void onFocusChange(View v, boolean hasFocus) {
+                                        if (!hasFocus) {
+                                            nextState(activity);
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                mediaPlayerManager.stop();
 //                            ttsManager.stop();
-                            nextState(activity);
+                                nextState(activity);
+                            }
                         }
 
 
                         if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED) {
                             mediaPlayerManager.stop();
 //                            ttsManager.stop();
+
+                            View view = activity.findViewById(activity.getResources().getIdentifier(res, "id", activity.getPackageName()));
+                            if (view.getClass().getSimpleName().equals("AppCompatEditText")) {
+                                view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                    @Override
+                                    public void onFocusChange(View v, boolean hasFocus) {
+                                        if (!hasFocus) {
+                                            nextState(activity);
+                                        }
+                                    }
+                                });
+
+                            }
 
                             View rootView = activity.getWindow().getDecorView().getRootView();
                             rootView.setOnTouchListener(new View.OnTouchListener() {
