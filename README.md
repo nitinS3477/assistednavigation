@@ -4,16 +4,7 @@
 
 Installing Onboarding SDK
 
-In order to install the Parse-SDK-Android as a Gradle dependency, add this in your root build.gradle file (not your module build.gradle file!)
-```gradle
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
-```
-And in your module build.gradle file, add the following:
+In order to install the SDK add the following in your build.gradle file:
 ```gradle
 	android {
 	    compileOptions {
@@ -24,7 +15,7 @@ And in your module build.gradle file, add the following:
 
 	dependencies {
 
-	        implementation 'com.github.nitin025:Demo:1.21'
+	        implementation 'com.frend:assistednavigation:0.1.0'
 	}
 ```
 
@@ -65,6 +56,21 @@ After creating our Application class, we need to define its name on the AndroidM
     ...
   </application>
 ```
+
+To download the audio files, add the following in Main/Starting activity. Make sure you are requesting for WRITE_EXTERNAL_STORAGE permissions before downloading the audio:
+
+```java
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        CustomAssistant.offlineDownload(this);
+    }
+}
+
 
 Further, store config file in json format in the assets folder
 
