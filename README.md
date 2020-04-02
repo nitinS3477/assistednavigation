@@ -15,7 +15,7 @@ In order to install the SDK add the following in your build.gradle file:
 
 	dependencies {
 
-	        implementation 'com.frend:assistednavigation:0.1.0'
+	        implementation 'com.frend:assistednavigation:0.1.1'
 	}
 ```
 
@@ -39,6 +39,7 @@ public class App extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
+
 
     CustomAssistant.init(this, journey , languageCode);
 
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+        }
         CustomAssistant.offlineDownload(this);
     }
 }

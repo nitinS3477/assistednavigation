@@ -13,11 +13,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 ext {
-    bintrayRepo = 'assistednavigation'
-    bintrayName = 'assistant'
+    bintrayRepo = 'assistant'
+    bintrayName = 'assistednavigation'
 
     publishedGroupId = 'com.frend'
-    libraryName = 'AssistedNavigation'
+    libraryName = 'assistednavigation'
     artifact = 'assistednavigation'
 
     libraryDescription = 'This helps in onbarding process using assistive platform'
@@ -25,7 +25,7 @@ ext {
     siteUrl = 'https://github.com/nitinS3477/assistednavigation'
     gitUrl = 'https://github.com/nitinS3477/assistednavigation.git'
 
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.1.1'
 
     developerId = 'triveous'
     developerName = 'Nitin Sabale'
