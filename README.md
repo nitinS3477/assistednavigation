@@ -74,11 +74,12 @@ public class MainActivity extends AppCompatActivity {
         CustomAssistant.offlineDownload(this);
     }
 }
-
+```
 
 Further, store config file in json format in the assets folder
 
 Format :
+
 ```xml
 {
   "languageCode": {
