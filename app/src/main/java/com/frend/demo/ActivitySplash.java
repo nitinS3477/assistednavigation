@@ -1,4 +1,4 @@
-package com.nitin.demo;
+package com.frend.demo;
 
 import android.Manifest;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.nitin.demo;
+package com.frend.assistednavigation;
 
 import org.junit.Test;
 

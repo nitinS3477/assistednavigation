@@ -1,4 +1,4 @@
-package com.nitin.assistant;
+package com.frend.assistednavigation;
 
 import android.app.Activity;
 import android.app.Application;
@@ -256,25 +256,24 @@ public class CustomAssistant {
         audioPathIterator = audioPathList.iterator();
 
 
+        if (viewIterator.hasNext()) {
+            String view = viewIterator.next();
+            String text = textIterator.next();
+            String audio = audioIterator.next();
+            String audioPath = audioPathIterator.next();
 
-            if (viewIterator.hasNext()) {
-                String view = viewIterator.next();
-                String text = textIterator.next();
-                String audio = audioIterator.next();
-                String audioPath = audioPathIterator.next();
-
-                while (sharedPreferences.getBoolean(view, false) && viewIterator.hasNext()) {
-                    view = viewIterator.next();
-                    text = textIterator.next();
-                    audio = audioIterator.next();
-                    audioPath = audioPathIterator.next();
-                }
-                if (!sharedPreferences.getBoolean(view, false)) {
-                    editor.putBoolean(view, true);
-                    editor.commit();
-                    showPrompt(activity, text, view, audio, audioPath);
-                }
+            while (sharedPreferences.getBoolean(view, false) && viewIterator.hasNext()) {
+                view = viewIterator.next();
+                text = textIterator.next();
+                audio = audioIterator.next();
+                audioPath = audioPathIterator.next();
             }
+            if (!sharedPreferences.getBoolean(view, false)) {
+                editor.putBoolean(view, true);
+                editor.commit();
+                showPrompt(activity, text, view, audio, audioPath);
+            }
+        }
 
     }
 
@@ -309,27 +308,18 @@ public class CustomAssistant {
                     @Override
                     public void onPromptStateChanged(@NonNull MaterialTapTargetPrompt prompt, int state) {
 
-//                        MediaHandlerThread mediaHandlerThread = new MediaHandlerThread("MediaPlayer");
-//                        mediaHandlerThread.start();
-//                        Message message = Message.obtain();
-//                        message.obj = "play";
-//                        mediaHandlerThread.getHandler().sendMessage(message);
-
 
                         MediaPlayerManager mediaPlayerManager = MediaPlayerManager.getInstance();
 
-//                        TTSManager ttsManager = TTSManager.getInstance();
-//                        ttsManager.init(activity);
-
 
                         if (state == MaterialTapTargetPrompt.STATE_REVEALED) {
-//                            ttsManager.play(text);
+
 
                             if (audio.equals("null")) {
                                 mediaPlayerManager.playFromAssets(activity, audioPath);
                                 Log.d("GFG", "onPromptStateChanged: playFromAssets");
                             } else {
-                                mediaPlayerManager.play(audio);
+                                mediaPlayerManager.playFromStorage(activity,audio);
                                 Log.d("GFG", "onPromptStateChanged: play");
                             }
                         }
@@ -349,7 +339,6 @@ public class CustomAssistant {
 
                             } else {
                                 mediaPlayerManager.stop();
-//                            ttsManager.stop();
                                 nextState(activity);
                             }
                         }
@@ -357,7 +346,6 @@ public class CustomAssistant {
 
                         if (state == MaterialTapTargetPrompt.STATE_NON_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED) {
                             mediaPlayerManager.stop();
-//                            ttsManager.stop();
 
                             View view = activity.findViewById(activity.getResources().getIdentifier(res, "id", activity.getPackageName()));
                             if (view.getClass().getSimpleName().equals("AppCompatEditText")) {

@@ -1,4 +1,4 @@
-package com.nitin.assistant;
+package com.frend.assistednavigation;
 
 import android.app.Activity;
 import android.media.AudioManager;
@@ -45,7 +45,7 @@ class MediaPlayerManager {
         mediaPlayer.start();
     }
 
-    public void play(@NotNull Activity activity, String url) {
+    public void playFromStorage(@NotNull Activity activity, String url) {
 
         String fileName = URLUtil.guessFileName(url, null, MimeTypeMap.getFileExtensionFromUrl(url));
         String audioPath = Environment.getExternalStorageDirectory().getPath() + "/InternetSaathi/" + fileName;

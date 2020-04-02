@@ -1,4 +1,4 @@
-package com.nitin.assistant;
+package com.frend.demo;
 
 import org.junit.Test;
 

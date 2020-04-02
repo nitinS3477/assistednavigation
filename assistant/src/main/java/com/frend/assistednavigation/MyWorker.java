@@ -1,4 +1,4 @@
-package com.nitin.assistant;
+package com.frend.assistednavigation;
 
 import android.app.DownloadManager;
 import android.content.Context;

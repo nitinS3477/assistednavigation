@@ -1,4 +1,4 @@
-package com.nitin.demo;
+package com.frend.demo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.nitin.assistant.CustomAssistant;
+import com.frend.assistednavigation.CustomAssistant;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //CustomAssistant.offlineDownload(this);
+        CustomAssistant.offlineDownload(this);
 
 
         if (getSupportActionBar() != null) {

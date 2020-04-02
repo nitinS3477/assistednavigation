@@ -1,4 +1,4 @@
-package com.nitin.assistant;
+package com.frend.assistednavigation;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;

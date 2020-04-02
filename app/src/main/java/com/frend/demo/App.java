@@ -1,8 +1,8 @@
-package com.nitin.demo;
+package com.frend.demo;
 
 import android.app.Application;
 
-import com.nitin.assistant.CustomAssistant;
+import com.frend.assistednavigation.CustomAssistant;
 
 import java.util.Locale;
 

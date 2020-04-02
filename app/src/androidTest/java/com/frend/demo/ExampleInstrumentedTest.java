@@ -1,4 +1,4 @@
-package com.nitin.assistant;
+package com.frend.demo;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.nitin.assistant.test", appContext.getPackageName());
+        assertEquals("com.nitin.demo", appContext.getPackageName());
     }
 }
